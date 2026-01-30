@@ -1,0 +1,19 @@
+import { IconProps } from "./types";
+
+export default function DropdownArrow({ className, size = 24 }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+    >
+      <path
+        d="M11.1717 17.0344C11.5683 17.6206 12.4317 17.6206 12.8283 17.0344L19.9904 6.44819C20.4396 5.78411 19.9639 4.88784 19.1621 4.88784H4.8379C4.03611 4.88784 3.56036 5.78411 4.00964 6.44819L11.1717 17.0344Z"
+        fill="#911A00"
+      />
+    </svg>
+  );
+}

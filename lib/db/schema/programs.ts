@@ -1,0 +1,32 @@
+import {
+  pgTable,
+  text,
+  varchar,
+  integer,
+  boolean,
+  timestamp,
+  jsonb,
+  uuid,
+} from "drizzle-orm/pg-core";
+
+export const programs = pgTable("programs", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  title: varchar("title", { length: 255 }).notNull(),
+  eventDateTime: timestamp("event_date_time").notNull(),
+  applicationStartAt: timestamp("application_start_at").notNull(),
+  applicationEndAt: timestamp("application_end_at").notNull(),
+  location: varchar("location", { length: 255 }),
+  capacity: integer("capacity"),
+  notes: text("notes"),
+  keyword: jsonb("keyword").default("[]").notNull(),
+  description: text("description"),
+  smartstoreUrl: text("smartstore_url").notNull(),
+  thumbnailUrl: text("thumbnail_url").notNull(),
+  isVisible: boolean("is_visible").default(true).notNull(),
+  isBookmarked: boolean("is_bookmarked").default(false),
+  isDeleted: boolean("is_deleted").default(false).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  applicationCount: integer("application_count").default(0).notNull(),
+  viewCount: integer("view_count").default(0).notNull(),
+  bookmarkCount: integer("bookmark_count").default(0).notNull(),
+});
