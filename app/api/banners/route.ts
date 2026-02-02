@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
 
     if (type)
       whereClauses.push(
-        eq(banners.type, type as (typeof bannerTypeEnum.enumValues)[number])
+        eq(banners.type, type as (typeof bannerTypeEnum.enumValues)[number]),
       );
     if (isActive !== null && isActive !== undefined) {
       whereClauses.push(eq(banners.isActive, isActive === "true"));
@@ -25,8 +25,8 @@ export async function GET(request: NextRequest) {
       whereClauses.push(
         and(
           or(isNull(banners.startDate), lte(banners.startDate, filterDate)),
-          or(isNull(banners.endDate), gte(banners.endDate, filterDate))
-        )
+          or(isNull(banners.endDate), gte(banners.endDate, filterDate)),
+        ),
       );
     }
 
@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

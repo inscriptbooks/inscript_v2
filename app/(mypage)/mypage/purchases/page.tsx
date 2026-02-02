@@ -35,13 +35,13 @@ export default async function PurchasesPage() {
   if (Array.isArray(itemRows) && itemRows.length > 0) {
     const playIds = Array.from(
       new Set(
-        (itemRows || []).map((r: any) => String(r.play_id)).filter(Boolean)
-      )
+        (itemRows || []).map((r: any) => String(r.play_id)).filter(Boolean),
+      ),
     );
     const orderIds = Array.from(
       new Set(
-        (itemRows || []).map((r: any) => String(r.order_id)).filter(Boolean)
-      )
+        (itemRows || []).map((r: any) => String(r.order_id)).filter(Boolean),
+      ),
     );
 
     const [{ data: playRows }, { data: payRows }] = await Promise.all([
@@ -92,6 +92,7 @@ export default async function PurchasesPage() {
       const ts = rawDate ? new Date(rawDate).getTime() : 0;
       return { p, ts };
     });
+
     withTs.sort((a, b) => b.ts - a.ts);
     purchases = withTs.map((x) => x.p);
   } else {

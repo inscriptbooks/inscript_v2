@@ -16,7 +16,7 @@ export default function AboutPage() {
       <div className="flex flex-col items-start gap-[80px] self-stretch px-[20px] pt-[80px] lg:flex-row lg:gap-[100px] lg:px-[120px] lg:pt-[120px]">
         {/* Logo */}
         <Image
-          src="/images/header-logo.webp"
+          src="/images/inscript_logo_basic_red-1.webp"
           alt="inscript2025_newlogotype"
           width={160}
           height={36}

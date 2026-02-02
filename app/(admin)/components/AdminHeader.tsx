@@ -55,7 +55,7 @@ function AdminHeader() {
           data-layer-name="inscript2025_newlogotype"
         >
           <Image
-            src="https://api.builder.io/api/v1/image/assets/TEMP/ac9a6e1592603a3891f99bf648ec975438f22105?width=321"
+            src="/images/inscript_logo_basic_red-1.webp"
             alt="Frame 1707482462"
             width={160.72}
             height={32.28}
@@ -78,7 +78,7 @@ function AdminHeader() {
           data-layer-name="inscript2025_newlogotype"
         >
           <Image
-            src="https://api.builder.io/api/v1/image/assets/TEMP/ac9a6e1592603a3891f99bf648ec975438f22105?width=321"
+            src="/images/inscript_logo_basic_red-1.webp"
             alt="Frame 1707482462"
             width={160.72}
             height={32.28}
@@ -100,7 +100,7 @@ function AdminHeader() {
         data-layer-name="inscript2025_newlogotype"
       >
         <Image
-          src="https://api.builder.io/api/v1/image/assets/TEMP/ac9a6e1592603a3891f99bf648ec975438f22105?width=321"
+          src="/images/inscript_logo_basic_red-1.webp"
           alt="Frame 1707482462"
           width={160.72}
           height={32.28}
@@ -229,7 +229,7 @@ function AdminHeader() {
             isOpen={isPasswordModalOpen}
             onClose={() => setIsPasswordModalOpen(false)}
           />,
-          document.body
+          document.body,
         )}
     </div>
   );

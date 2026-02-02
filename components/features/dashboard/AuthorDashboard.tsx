@@ -93,7 +93,7 @@ export default function AuthorDashboard({
                     <div className="h-6 w-6 shrink-0 rounded-full bg-gray-5" />
                     {/* Author Name */}
                     <span className="line-clamp-1 text-sm text-gray-3 user-name">
-                      익명
+                      작가회원
                     </span>
                   </div>
                 </td>

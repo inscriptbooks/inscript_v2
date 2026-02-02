@@ -59,7 +59,7 @@ export default function ClientSideNavigationBar({
     <div
       className={cn(
         "z-999 fixed inset-0 bg-primary transition-transform duration-300 ease-in-out",
-        isOpen ? "translate-x-0 opacity-100" : "translate-x-full"
+        isOpen ? "translate-x-0 opacity-100" : "translate-x-full",
       )}
     >
       <div className="flex h-full w-full flex-col p-8">
@@ -151,7 +151,11 @@ export default function ClientSideNavigationBar({
           </Link>
 
           {/* 멤버십 */}
-          <Link href="/membership" className="w-fit py-2.5" onClick={onClose}>
+          <Link
+            href="/membership"
+            className="w-fit py-2.5 hidden"
+            onClick={onClose}
+          >
             <span className="text-2xl font-semibold leading-8 text-white">
               멤버십
             </span>
@@ -172,7 +176,7 @@ export default function ClientSideNavigationBar({
                 <ChevronDown
                   className={cn(
                     "rotate-180 text-white transition-transform",
-                    isProgramExpanded && "rotate-0"
+                    isProgramExpanded && "rotate-0",
                   )}
                 />
               </div>
@@ -216,7 +220,7 @@ export default function ClientSideNavigationBar({
                 <ChevronDown
                   className={cn(
                     "rotate-180 text-white transition-transform",
-                    isCommunityExpanded && "rotate-0"
+                    isCommunityExpanded && "rotate-0",
                   )}
                 />
               </div>
@@ -306,7 +310,7 @@ export default function ClientSideNavigationBar({
 
           {/* SHOP */}
           <Link
-            href="https://inscript.sixshop.site"
+            href="https://smartstore.naver.com/inscript"
             target="_blank"
             rel="noreferrer noopener"
             aria-label="인스크립트 굿즈, 소품샵으로 이동"

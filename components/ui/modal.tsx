@@ -61,7 +61,7 @@ export function Modal({
   return (
     <div
       className={cn(
-        "fixed inset-0 z-50 bg-[rgba(4,4,4,0.8)] flex items-center justify-center"
+        "fixed inset-0 z-50 bg-[rgba(4,4,4,0.8)] flex items-center justify-center",
       )}
     >
       <div onClick={(e) => e.stopPropagation()}>{children}</div>
@@ -77,9 +77,9 @@ export function ModalContent({
   return (
     <div
       className={cn(
-        "flex flex-col items-center gap-[46px] rounded-[12px] bg-white p-11 shadow-[0_0_10px_0_rgba(146,46,0,0.08)]",
+        "flex flex-col items-center gap-[46px] rounded-[12px] bg-white p-11 shadow-[0_0_10px_0_rgba(146,46,0,0.08)] max-h-[96vh] overflow-y-auto",
         type === "preview" ? "w-full" : "w-[520px]",
-        className
+        className,
       )}
     >
       {children}

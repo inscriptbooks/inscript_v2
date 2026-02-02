@@ -12,14 +12,14 @@ export async function POST(request: NextRequest) {
     if (!playId || !action) {
       return NextResponse.json(
         { error: "필수 정보가 누락되었습니다." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (action === "reject" && !rejectionReason) {
       return NextResponse.json(
         { error: "반려 사유를 입력해주세요." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
     if (!result || result.length === 0) {
       return NextResponse.json(
         { error: "희곡을 찾을 수 없습니다." },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -71,17 +71,35 @@ export async function POST(request: NextRequest) {
       console.warn("Failed to create play log:", logError);
     }
 
-    return NextResponse.json({ 
+    // 반려 시 작가에게 알림 전송
+    if (action === "reject" && result[0].createdById) {
+      try {
+        await supabase.from("notifications").insert({
+          user_id: result[0].createdById,
+          type: "system",
+          title: "희곡 등록 반려",
+          message: `희곡 "${result[0].title}"이(가) 반려되었습니다.\n반려 사유: ${rejectionReason}`,
+          is_read: false,
+        });
+      } catch (notificationError) {
+        console.warn("Failed to send notification:", notificationError);
+      }
+    }
+
+    return NextResponse.json({
       success: true,
-      message: action === "approve" ? "희곡이 승인되었습니다." : "희곡이 반려되었습니다."
+      message:
+        action === "approve"
+          ? "희곡이 승인되었습니다."
+          : "희곡이 반려되었습니다.",
     });
   } catch (error) {
     return NextResponse.json(
-      { 
+      {
         error: "서버 오류가 발생했습니다.",
-        details: error instanceof Error ? error.message : "Unknown error"
+        details: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

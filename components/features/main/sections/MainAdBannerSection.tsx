@@ -39,7 +39,7 @@ export default function MainAdBannerSection() {
 
   return (
     <section className="full-bleed pb-10 lg:pb-[145px]">
-      <div className="mx-auto max-w-[1440px] px-[20px] lg:px-[120px]">
+      <div className="mx-auto mt-[45px] max-w-[1440px] px-[20px] lg:px-[120px]">
         <div className="flex flex-col gap-3 lg:gap-10">
           {displayBanners.map((banner, index) => (
             <button

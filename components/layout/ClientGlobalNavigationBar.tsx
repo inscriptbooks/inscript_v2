@@ -29,7 +29,10 @@ export default function ClientGlobalNavigationBar() {
         </span>
       </Link>
       {/* 멤버십 */}
-      <Link href="/membership" className="group flex h-full w-fit items-center">
+      <Link
+        href="/membership"
+        className="group flex h-full w-fit items-center hidden"
+      >
         <span className="font-semibold text-gray-3 transition-colors group-hover:text-primary">
           멤버십
         </span>
@@ -44,7 +47,7 @@ export default function ClientGlobalNavigationBar() {
           <span
             className={cn(
               "font-semibold text-gray-3 transition-colors group-hover:text-primary",
-              programDropdownOpen && "text-primary"
+              programDropdownOpen && "text-primary",
             )}
           >
             프로그램
@@ -52,7 +55,7 @@ export default function ClientGlobalNavigationBar() {
           <ChevronDown
             className={cn(
               "rotate-180 text-gray-3 outline-none transition-all group-hover:text-primary",
-              programDropdownOpen && "rotate-0 text-primary"
+              programDropdownOpen && "rotate-0 text-primary",
             )}
           />
         </PopoverTrigger>
@@ -90,7 +93,7 @@ export default function ClientGlobalNavigationBar() {
           <span
             className={cn(
               "font-semibold text-gray-3 transition-colors group-hover:text-primary",
-              communityDropdownOpen && "text-primary"
+              communityDropdownOpen && "text-primary",
             )}
           >
             커뮤니티
@@ -98,7 +101,7 @@ export default function ClientGlobalNavigationBar() {
           <ChevronDown
             className={cn(
               "rotate-180 text-gray-3 outline-none transition-all group-hover:text-primary",
-              communityDropdownOpen && "rotate-0 text-primary"
+              communityDropdownOpen && "rotate-0 text-primary",
             )}
           />
         </PopoverTrigger>
@@ -167,7 +170,7 @@ export default function ClientGlobalNavigationBar() {
       </Link>
       {/* SHOP */}
       <Link
-        href="https://inscript.sixshop.site"
+        href="https://smartstore.naver.com/inscript"
         target="_blank"
         rel="noreferrer noopener"
         aria-label="인스크립트 굿즈, 소품샵으로 이동"

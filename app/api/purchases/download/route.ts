@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     if (!user) {
       return NextResponse.json(
         { error: "인증이 필요합니다." },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     if (!playId || !orderId) {
       return NextResponse.json(
         { error: "필수 정보가 누락되었습니다." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
     if (!purchaseItem) {
       return NextResponse.json(
         { error: "구매 내역을 찾을 수 없습니다." },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
     if (!playData || !playData.attachment_url) {
       return NextResponse.json(
         { error: "다운로드 파일을 찾을 수 없습니다." },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
       if (insertError) {
         return NextResponse.json(
           { error: "다운로드 이력 저장에 실패했습니다." },
-          { status: 500 }
+          { status: 500 },
         );
       }
     }
@@ -104,7 +104,7 @@ export async function POST(request: NextRequest) {
     if (!downloadPath) {
       return NextResponse.json(
         { error: "파일 경로를 결정할 수 없습니다." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -112,7 +112,7 @@ export async function POST(request: NextRequest) {
     if (!lowerPath.endsWith(".pdf")) {
       return NextResponse.json(
         { error: "PDF 파일만 다운로드할 수 있습니다." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -126,7 +126,7 @@ export async function POST(request: NextRequest) {
           error: "파일을 가져오는데 실패했습니다.",
           details: downloadError?.message,
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -185,7 +185,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     return NextResponse.json(
       { error: "다운로드 처리 중 오류가 발생했습니다." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

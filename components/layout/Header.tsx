@@ -53,7 +53,7 @@ export default function Header() {
           className="h-[22px] w-[97px] flex-shrink-0 lg:h-[36px] lg:w-[160px]"
         >
           <Image
-            src="/images/header-logo.webp"
+            src="/images/inscript_logo_basic_red-1.webp"
             alt="header-logo"
             width={97}
             height={22}

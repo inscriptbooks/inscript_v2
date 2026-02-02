@@ -81,7 +81,7 @@ export default function PurchaseDownloadList({
                 <Loader size="sm" />
               </span>
             ) : isDownloadExpired(purchase.purchasedAt) ? (
-              "다운로드 만료"
+              "기간 만료"
             ) : (
               "희곡 다운로드"
             )}

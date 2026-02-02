@@ -96,13 +96,13 @@ export default function CommunityDetailHeaderSection({
             <div className="flex h-6 w-6 rounded-full bg-gray-5" />
             <UserInfoPopover
               userId={post.user.id}
-              userName={isAnonymous ? "익명" : post.user.name}
+              userName={isAnonymous ? "작가회원" : post.user.name}
               userCreatedAt={post.user.createdAt}
               onReport={handleReport}
               isAnonymous={isAnonymous}
             >
               <span className="cursor-pointer text-sm font-medium text-gray-2 hover:text-primary user-name">
-                {isAnonymous ? "익명" : post.user.name}
+                {isAnonymous ? "작가회원" : post.user.name}
               </span>
             </UserInfoPopover>
             <span className="text-sm font-medium text-gray-2">
@@ -138,7 +138,7 @@ export default function CommunityDetailHeaderSection({
         isOpen={isReportModalOpen}
         onClose={() => setIsReportModalOpen(false)}
         targetType="post"
-        authorName={isAnonymous ? "익명" : post.user.name}
+        authorName={isAnonymous ? "작가회원" : post.user.name}
         content={post.title}
         onSubmit={handleReportSubmit}
       />

@@ -57,7 +57,7 @@ export default function CommentItem({
         onSuccess: () => {
           setIsEditModalOpen(false);
         },
-      }
+      },
     );
   };
 
@@ -89,13 +89,13 @@ export default function CommentItem({
           <div className="flex w-full items-center gap-5">
             <UserInfoPopover
               userId={comment.user.id}
-              userName={isAnonymous ? "익명" : comment.user.name}
+              userName={isAnonymous ? "작가회원" : comment.user.name}
               userCreatedAt={comment.user.createdAt}
               onReport={handleReport}
               isAnonymous={isAnonymous}
             >
               <span className="line-clamp-1 cursor-pointer text-sm font-medium text-gray-2 hover:text-primary user-name">
-                {isAnonymous ? "익명" : comment.user.name}
+                {isAnonymous ? "작가회원" : comment.user.name}
               </span>
             </UserInfoPopover>
 
@@ -157,7 +157,7 @@ export default function CommentItem({
         isOpen={isReportModalOpen}
         onClose={() => setIsReportModalOpen(false)}
         targetType="comment"
-        authorName={isAnonymous ? "익명" : comment.user.name}
+        authorName={isAnonymous ? "작가회원" : comment.user.name}
         content={comment.content}
         onSubmit={handleReportSubmit}
       />

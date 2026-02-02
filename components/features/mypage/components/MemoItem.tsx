@@ -6,6 +6,7 @@ import { useUser } from "@/hooks/auth";
 import { useUpdateMemo, useDeleteMemo } from "@/hooks/memos";
 import { useLoginRequired } from "@/hooks/common";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import EntryEditModal from "@/components/common/Modal/EntryEditModal";
 import EntryDeleteModal from "@/components/common/Modal/EntryDeleteModal";
 import { UserInfoPopover } from "@/components/ui/UserInfoPopover";
@@ -17,6 +18,7 @@ interface MemoItemProps {
 }
 
 export default function MemoItem({ memo }: MemoItemProps) {
+  const router = useRouter();
   const { user: currentUser } = useUser();
   const { requireAuth } = useLoginRequired();
   const userId = currentUser?.id;
@@ -31,13 +33,25 @@ export default function MemoItem({ memo }: MemoItemProps) {
 
   const isOwner = memo.user.id === userId;
 
-  const handleEditClick = () => {
+  const handleMemoClick = () => {
+    if (memo.type === "play") {
+      router.push(`/play/${memo.play.id}`);
+    } else if (memo.type === "author") {
+      router.push(`/author/${memo.author.id}`);
+    } else if (memo.type === "program") {
+      router.push(`/program/${memo.program.id}`);
+    }
+  };
+
+  const handleEditClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     requireAuth(() => {
       setIsEditModalOpen(true);
     });
   };
 
-  const handleDeleteClick = () => {
+  const handleDeleteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     requireAuth(() => {
       setIsDeleteModalOpen(true);
     });
@@ -53,7 +67,7 @@ export default function MemoItem({ memo }: MemoItemProps) {
         onSuccess: () => {
           setIsEditModalOpen(false);
         },
-      }
+      },
     );
   };
 
@@ -80,19 +94,24 @@ export default function MemoItem({ memo }: MemoItemProps) {
 
   return (
     <>
-      <div className="flex w-full flex-1 flex-col gap-3">
+      <div
+        className="flex w-full flex-1 flex-col gap-3 cursor-pointer transition-colors hover:bg-gray-6/50 rounded-lg p-3 -m-3"
+        onClick={handleMemoClick}
+      >
         <div className="flex w-full items-center justify-between">
           <div className="flex w-full items-center gap-5">
-            <UserInfoPopover
-              userId={memo.user.id}
-              userName={memo.user.name}
-              userCreatedAt={memo.user.createdAt}
-              onReport={handleReport}
-            >
-              <span className="line-clamp-1 cursor-pointer text-sm font-medium text-gray-2 hover:text-primary user-name">
-                {memo.user.name}
-              </span>
-            </UserInfoPopover>
+            <div onClick={(e) => e.stopPropagation()}>
+              <UserInfoPopover
+                userId={memo.user.id}
+                userName={memo.user.name}
+                userCreatedAt={memo.user.createdAt}
+                onReport={handleReport}
+              >
+                <span className="line-clamp-1 cursor-pointer text-sm font-medium text-gray-2 hover:text-primary user-name">
+                  {memo.user.name}
+                </span>
+              </UserInfoPopover>
+            </div>
 
             <span className="min-w-[40px] text-sm font-semibold text-gray-4">
               {formatRelativeTime(memo.createdAt)}

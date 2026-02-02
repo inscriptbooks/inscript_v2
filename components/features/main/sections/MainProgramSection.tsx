@@ -53,9 +53,9 @@ export default function MainProgramSection() {
         e.stopPropagation();
         return;
       }
-      window.location.href = `/programs/${programId}`;
+      window.location.href = `/program/${programId}`;
     },
-    []
+    [],
   );
 
   // event_date_time 최신 기준으로 정렬하고 5개만 가져오기
@@ -64,7 +64,7 @@ export default function MainProgramSection() {
     .sort(
       (a, b) =>
         new Date(b.eventDateTime).getTime() -
-        new Date(a.eventDateTime).getTime()
+        new Date(a.eventDateTime).getTime(),
     )
     .slice(0, 5);
 

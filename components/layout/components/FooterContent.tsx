@@ -26,7 +26,7 @@ export function FooterContent() {
     <div className="flex w-full flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
       <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:flex-1">
         {/* Company Name */}
-        <h2 className="min-w-[136px] font-serif text-[28px] leading-[32px] font-bold text-primary">
+        <h2 className="min-w-[136px] font-serif text-[16px] leading-[20px] font-bold text-primary">
           {companyName}
         </h2>
 
@@ -106,7 +106,7 @@ export function FooterContent() {
           <TbBrandYoutubeFilled size={24} className="text-[#911A00]" />
         </Link>
         <Link
-          href="https://pf.kakao.com/_tSxcgxj/chat?t_src=kakaomap"
+          href="https://pf.kakao.com/_tSxcgxj"
           target="_blank"
           rel="noreferrer noopener"
           aria-label="카카오톡채널로 이동"

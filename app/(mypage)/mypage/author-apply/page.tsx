@@ -1,36 +1,93 @@
+"use client";
+
 import { AuthorRequestForm } from "@/components/forms";
-import { createClient } from "@/lib/supabase/server";
 import AuthorApplicationStatus from "./components/AuthorApplicationStatus";
+import { useEffect, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
 
-export default async function MyPageAuthorApply() {
-  const supabase = await createClient();
+export default function MyPageAuthorApply() {
+  const [applicationStatus, setApplicationStatus] = useState<
+    "pending" | "approved" | "rejected" | null
+  >(null);
+  const [rejectionReason, setRejectionReason] = useState<string | null>(null);
+  const [showForm, setShowForm] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  useEffect(() => {
+    const fetchApplicationStatus = async () => {
+      const supabase = createClient();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
-  let applicationStatus = null;
+      if (user) {
+        const { data: application } = await supabase
+          .from("author_applications")
+          .select("*")
+          .eq("user_id", user.id)
+          .order("created_at", { ascending: false })
+          .limit(1)
+          .single();
 
-  if (user) {
-    const { data: application } = await supabase
-      .from("author_applications")
-      .select("*")
-      .eq("user_id", user.id)
-      .order("created_at", { ascending: false })
-      .limit(1)
-      .single();
+        if (application) {
+          setApplicationStatus(application.status);
+          setRejectionReason(application.rejection_reason);
+        }
+      }
+      setIsLoading(false);
+    };
 
-    if (application) {
-      applicationStatus = application.status;
+    fetchApplicationStatus();
+  }, []);
+
+  const handleReapply = () => {
+    setShowForm(true);
+  };
+
+  const handleSubmitSuccess = async () => {
+    setShowForm(false);
+    setIsLoading(true);
+
+    const supabase = createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (user) {
+      const { data: application } = await supabase
+        .from("author_applications")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .single();
+
+      if (application) {
+        setApplicationStatus(application.status);
+        setRejectionReason(application.rejection_reason);
+      }
     }
+    setIsLoading(false);
+  };
+
+  if (isLoading) {
+    return (
+      <section className="flex w-full flex-1 flex-col items-center justify-center">
+        <div className="text-gray-3">로딩 중...</div>
+      </section>
+    );
   }
 
   return (
     <section className="flex w-full flex-1 flex-col items-center">
-      {applicationStatus ? (
-        <AuthorApplicationStatus status={applicationStatus} />
+      {applicationStatus && !showForm ? (
+        <AuthorApplicationStatus
+          status={applicationStatus}
+          rejectionReason={rejectionReason}
+          onReapply={handleReapply}
+        />
       ) : (
-        <AuthorRequestForm />
+        <AuthorRequestForm onSubmit={handleSubmitSuccess} />
       )}
     </section>
   );
