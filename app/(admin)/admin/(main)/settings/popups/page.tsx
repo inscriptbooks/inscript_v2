@@ -15,7 +15,7 @@ interface PageProps {
 }
 
 async function getPopupsData(
-  searchParams: Record<string, string | undefined>
+  searchParams: Record<string, string | undefined>,
 ): Promise<PopupsResponse> {
   const page = parseInt(searchParams.page || "1");
   const limit = parseInt(searchParams.limit || "10");
@@ -35,9 +35,8 @@ async function getPopupsData(
   if (searchCategory) params.set("searchCategory", searchCategory);
   if (searchQuery) params.set("searchQuery", searchQuery);
 
-  const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-  const response = await fetch(`${baseUrl}/api/admin/popups?${params}`, {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+  const response = await fetch(`/api/admin/popups?${params}`, {
     cache: "no-store",
   });
 

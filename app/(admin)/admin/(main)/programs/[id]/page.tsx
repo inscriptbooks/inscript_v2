@@ -17,7 +17,7 @@ import { formatKoreanDate, formatKoreanDateTime } from "@/lib/utils/date";
 async function getProgramData(programId: string) {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    const response = await fetch(`${baseUrl}/api/admin/programs/${programId}`, {
+    const response = await fetch(`/api/admin/programs/${programId}`, {
       cache: "no-store",
     });
 

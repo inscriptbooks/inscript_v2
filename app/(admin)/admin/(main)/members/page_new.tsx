@@ -16,7 +16,7 @@ interface PageProps {
 }
 
 async function getMembersData(
-  searchParams: Record<string, string | undefined>
+  searchParams: Record<string, string | undefined>,
 ): Promise<MembersResponse> {
   const page = parseInt(searchParams.page || "1");
   const limit = parseInt(searchParams.limit || "10");
@@ -38,9 +38,8 @@ async function getMembersData(
   if (searchCategory) params.set("searchCategory", searchCategory);
   if (searchQuery) params.set("searchQuery", searchQuery);
 
-  const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-  const response = await fetch(`${baseUrl}/api/admin/members?${params}`, {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+  const response = await fetch(`/api/admin/members?${params}`, {
     cache: "no-store",
   });
 

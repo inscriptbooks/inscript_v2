@@ -18,7 +18,7 @@ interface PageProps {
 }
 
 async function getApplicationsData(
-  searchParams: Record<string, string | undefined>
+  searchParams: Record<string, string | undefined>,
 ): Promise<ApplicationsResponse> {
   const page = parseInt(searchParams.page || "1");
   const limit = parseInt(searchParams.limit || "10");
@@ -45,12 +45,9 @@ async function getApplicationsData(
   if (sortOrder) params.set("sortOrder", sortOrder);
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-  const response = await fetch(
-    `${baseUrl}/api/admin/program-applications?${params}`,
-    {
-      cache: "no-store",
-    }
-  );
+  const response = await fetch(`/api/admin/program-applications?${params}`, {
+    cache: "no-store",
+  });
 
   if (!response.ok) {
     return {

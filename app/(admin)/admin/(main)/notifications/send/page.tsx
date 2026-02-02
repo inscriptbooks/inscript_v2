@@ -13,7 +13,7 @@ interface PageProps {
 }
 
 async function getNotificationsData(
-  searchParams: Record<string, string | undefined>
+  searchParams: Record<string, string | undefined>,
 ): Promise<NotificationsResponse> {
   const page = parseInt(searchParams.page || "1");
   const limit = parseInt(searchParams.limit || "10");
@@ -29,9 +29,8 @@ async function getNotificationsData(
   if (endDate) params.set("endDate", endDate);
   if (searchQuery) params.set("searchQuery", searchQuery);
 
-  const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-  const response = await fetch(`${baseUrl}/api/admin/notifications?${params}`, {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+  const response = await fetch(`/api/admin/notifications?${params}`, {
     cache: "no-store",
   });
 
@@ -50,7 +49,9 @@ async function getNotificationsData(
   return response.json();
 }
 
-export default async function AdminNotificationsSendPage({ searchParams }: PageProps) {
+export default async function AdminNotificationsSendPage({
+  searchParams,
+}: PageProps) {
   const params = await searchParams;
   const data = await getNotificationsData(params);
 

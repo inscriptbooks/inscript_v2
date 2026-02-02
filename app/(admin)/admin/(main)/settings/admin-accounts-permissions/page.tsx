@@ -14,7 +14,7 @@ interface PageProps {
 }
 
 async function getAdminAccountsData(
-  searchParams: Record<string, string | undefined>
+  searchParams: Record<string, string | undefined>,
 ): Promise<AdminAccountsResponse> {
   const page = parseInt(searchParams.page || "1");
   const limit = parseInt(searchParams.limit || "10");
@@ -32,9 +32,8 @@ async function getAdminAccountsData(
   if (status) params.set("status", status);
   if (type) params.set("type", type);
 
-  const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-  const response = await fetch(`${baseUrl}/api/admin/accounts?${params}`, {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+  const response = await fetch(`/api/admin/accounts?${params}`, {
     cache: "no-store",
   });
 

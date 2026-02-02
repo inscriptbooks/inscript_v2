@@ -18,7 +18,7 @@ interface PageProps {
 }
 
 async function getCommunityData(
-  searchParams: Record<string, string | undefined>
+  searchParams: Record<string, string | undefined>,
 ): Promise<CommunityResponse> {
   const page = parseInt(searchParams.page || "1");
   const limit = parseInt(searchParams.limit || "10");
@@ -45,7 +45,7 @@ async function getCommunityData(
   if (sortOrder) params.set("sortOrder", sortOrder);
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-  const response = await fetch(`${baseUrl}/api/admin/community2?${params}`, {
+  const response = await fetch(`/api/admin/community2?${params}`, {
     cache: "no-store",
   });
 
