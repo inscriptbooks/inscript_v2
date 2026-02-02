@@ -8,7 +8,7 @@ interface PageProps {
 async function getPlayData(playId: string): Promise<Play | null> {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    const response = await fetch(`/api/plays/${playId}`, {
+    const response = await fetch(`${baseUrl}/api/plays/${playId}`, {
       cache: "no-store",
     });
 

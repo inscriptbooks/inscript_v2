@@ -19,7 +19,7 @@ interface PageProps {
 }
 
 async function getMemosData(
-  searchParams: Record<string, string | undefined>,
+  searchParams: Record<string, string | undefined>
 ): Promise<MemosResponse> {
   const page = parseInt(searchParams.page || "1");
   const limit = parseInt(searchParams.limit || "10");
@@ -48,7 +48,7 @@ async function getMemosData(
   if (sortOrder) params.set("sortOrder", sortOrder);
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-  const response = await fetch(`/api/admin/memos?${params}`, {
+  const response = await fetch(`${baseUrl}/api/admin/memos?${params}`, {
     cache: "no-store",
   });
 
