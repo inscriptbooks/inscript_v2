@@ -113,7 +113,17 @@ export default function AccountManagementForm({
       <EntryDeleteModal
         isOpen={isDeleteModalOpen}
         title="회원 탈퇴"
-        description="탈퇴 시 계정 및 작성한 데이터가 삭제됩니다. 계속하시겠습니까?"
+        description={
+          <>
+            <p>탈퇴 시 계정 및 작성한 데이터가 삭제되며,</p>
+            <br />
+            <p>구매한 전자책 및 다운로드한</p>
+            <p>디지털 콘텐츠에 대한 이용 권한이 소멸되어</p>
+            <p>재다운로드 및 복구가 불가능합니다.</p>
+            <br />
+            <p>계속하시겠습니까?</p>
+          </>
+        }
         onClose={() => setIsDeleteModalOpen(false)}
         onDelete={handleDeleteAccount}
         isLoading={isDeleting}

@@ -23,7 +23,7 @@ interface SubHeaderProps {
 export type SubHeaderType = (typeof navigationItems)[number]["id"];
 
 const navigationItems = [
-  { id: "home", label: "HOME", href: "/community" },
+  { id: "home", label: "전체 커뮤니티", href: "/community" },
   { id: "news", label: "인크소식", href: "/community/news" },
   { id: "recruit", label: "함께하기", href: "/community/recruit" },
   { id: "market", label: "사고팔기", href: "/community/market" },
@@ -55,13 +55,13 @@ export default function SubHeader({
       className={cn(
         "relative flex h-10 items-center justify-center whitespace-nowrap px-2.5 py-2.5 transition-colors duration-200",
         "md:flex-1",
-        isActive && "border-b border-primary"
+        isActive && "border-b border-primary",
       )}
     >
       <span
         className={cn(
           "text-center font-pretendard text-base font-normal leading-5",
-          isActive ? "font-medium text-primary" : "text-orange-2"
+          isActive ? "font-medium text-primary" : "text-orange-2",
         )}
       >
         {item.label}

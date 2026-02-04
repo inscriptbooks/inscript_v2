@@ -1,8 +1,7 @@
 "use client";
 
-import { Play } from "@/models/play";
+import { Play, PublicStatus, PublicStatusLabel } from "@/models/play";
 import { Badge } from "@/components/ui/badge";
-import { PublicStatusLabel } from "@/models/play";
 import PlayPurchasePreviewButtons from "../components/PlayPurchasePreviewButtons";
 
 interface PlayDetailSectionProps {
@@ -130,16 +129,16 @@ export default function PlayDetailSection({ play }: PlayDetailSectionProps) {
               </div>
             )}
 
-            {/* 판매 정보 */}
+            {/* 구매 정보 */}
             <div className="flex flex-col gap-2.5">
               <h2 className="text-lg font-semibold text-gray-1 lg:text-[20px]">
-                판매
+                구매
               </h2>
               <div className="leading-[24px] text-gray-2">
                 {play.salesStatus === "판매함" ? (
                   <div className="flex flex-col gap-10">
-                    <span>
-                      가격:{" "}
+                    <span suppressHydrationWarning>
+                      가격{" "}
                       {typeof play.price === "number"
                         ? `${play.price.toLocaleString()}원`
                         : "-"}
@@ -155,7 +154,11 @@ export default function PlayDetailSection({ play }: PlayDetailSectionProps) {
                     />
                   </div>
                 ) : (
-                  <span>판매 안 함</span>
+                  <span>
+                    {play.publicStatus === PublicStatus.PUBLISHED
+                      ? "온오프라인 서점을 통해 구매하실 수 있습니다."
+                      : "현재 본 웹사이트에서 구매가 어렵습니다."}
+                  </span>
                 )}
               </div>
             </div>

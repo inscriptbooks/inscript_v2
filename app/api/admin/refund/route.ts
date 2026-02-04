@@ -118,28 +118,23 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // DB에서 구매 항목 삭제
-    const { error: deleteError } = await supabase
+    // 환불된 항목: 삭제 대신 환불 상태로 업데이트 (환불 이력 추적용)
+    const { error: updateError } = await supabase
       .from("payment_items")
-      .delete()
+      .update({
+        is_refunded: true,
+        refunded_at: new Date().toISOString(),
+      })
       .eq("user_id", userId)
       .eq("play_id", playId)
       .eq("order_id", orderId);
 
-    if (deleteError) {
+    if (updateError) {
       return NextResponse.json(
-        { error: "구매 항목 삭제에 실패했습니다." },
+        { error: "환불 상태 업데이트에 실패했습니다." },
         { status: 500 }
       );
     }
-
-    // 다운로드 이력도 삭제 (있다면)
-    await supabase
-      .from("play_downloads")
-      .delete()
-      .eq("user_id", userId)
-      .eq("play_id", playId)
-      .eq("order_id", orderId);
 
     // payments 테이블의 status 업데이트 (취소된 경우)
     if (cancelData?.status) {

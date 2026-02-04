@@ -24,7 +24,7 @@ export const publicStatusEnum = pgEnum("public_status", [
   "outOfPrint",
 ]);
 
-// 판매 여부 enum (KO)
+// 구매 여부 enum (KO)
 export const salesStatusEnum = pgEnum("sales_status", ["판매함", "판매 안 함"]);
 
 export const plays = pgTable("plays", {

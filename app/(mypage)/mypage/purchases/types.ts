@@ -9,4 +9,5 @@ export interface PurchaseItem {
   attachmentUrl?: string;
   isDownloaded?: boolean;
   orderId?: string;
+  isRefunded?: boolean; // 환불 완료 여부
 }

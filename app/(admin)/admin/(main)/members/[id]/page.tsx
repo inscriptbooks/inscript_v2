@@ -77,6 +77,7 @@ function MemberDetailContent() {
   const [isRefundModalOpen, setIsRefundModalOpen] = useState(false);
   const [selectedPurchase, setSelectedPurchase] =
     useState<PurchaseHistory | null>(null);
+  const [isRefunding, setIsRefunding] = useState(false);
   const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
   const { mutate: createNote, isPending } = useCreateNote();
 
@@ -190,8 +191,9 @@ function MemberDetailContent() {
   };
 
   const handleRefundConfirm = async () => {
-    if (!selectedPurchase) return;
+    if (!selectedPurchase || isRefunding) return;
 
+    setIsRefunding(true);
     try {
       const response = await fetch("/api/admin/refund", {
         method: "POST",
@@ -207,7 +209,7 @@ function MemberDetailContent() {
 
       if (response.ok) {
         showSuccessToast(
-          `'${selectedPurchase.playTitle}' 환불 처리가 완료되었습니다.`
+          `'${selectedPurchase.playTitle}' 환불 처리가 완료되었습니다.`,
         );
         setIsRefundModalOpen(false);
         setSelectedPurchase(null);
@@ -218,6 +220,8 @@ function MemberDetailContent() {
       }
     } catch (error) {
       showErrorToast("오류가 발생했습니다.");
+    } finally {
+      setIsRefunding(false);
     }
   };
 
@@ -240,7 +244,7 @@ function MemberDetailContent() {
             showErrorToast(errorMessage);
             reject(error);
           },
-        }
+        },
       );
     });
   };
@@ -750,23 +754,28 @@ function MemberDetailContent() {
                         </span>
                       </div>
                       <div className="flex w-[160px] items-center justify-center p-2.5">
+                        {/* 환불된 항목: 환불 완료 표시 / 다운로드 완료: 환불 불가 / 그 외: 환불 처리 */}
                         <Button
                           onClick={() => handleRefundClick(purchase)}
-                          disabled={purchase.isDownloaded}
+                          disabled={purchase.isRefunded || purchase.isDownloaded}
                           className={
-                            purchase.isDownloaded
+                            purchase.isRefunded || purchase.isDownloaded
                               ? "border border-gray-4 bg-white px-3 py-2.5 rounded hover:bg-white cursor-not-allowed"
                               : "border border-primary bg-white px-3 py-2.5 rounded hover:bg-gray-6"
                           }
                         >
                           <span
                             className={
-                              purchase.isDownloaded
+                              purchase.isRefunded || purchase.isDownloaded
                                 ? "font-pretendard text-sm font-semibold leading-4 tracking-[-0.28px] text-gray-4"
                                 : "font-pretendard text-sm font-semibold leading-4 tracking-[-0.28px] text-primary"
                             }
                           >
-                            {purchase.isDownloaded ? "환불 불가" : "환불 처리"}
+                            {purchase.isRefunded
+                              ? "환불 완료"
+                              : purchase.isDownloaded
+                                ? "환불 불가"
+                                : "환불 처리"}
                           </span>
                         </Button>
                       </div>
@@ -877,14 +886,17 @@ function MemberDetailContent() {
           <RefundModal
             isOpen={isRefundModalOpen}
             onClose={() => {
-              setIsRefundModalOpen(false);
-              setSelectedPurchase(null);
+              if (!isRefunding) {
+                setIsRefundModalOpen(false);
+                setSelectedPurchase(null);
+              }
             }}
             onConfirm={handleRefundConfirm}
             userId={memberData?.email || userId}
             playTitle={selectedPurchase.playTitle}
             author={selectedPurchase.author}
             purchaseDate={selectedPurchase.purchaseDate}
+            isLoading={isRefunding}
           />
         )}
 

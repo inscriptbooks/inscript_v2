@@ -26,16 +26,21 @@ export async function GET(request: NextRequest) {
   }
 
   // payment_items에 구매 기록이 있는지 확인
-  // 환불된 경우 payment_items에서 삭제되므로 재구매 가능
+  // 환불된 항목: is_refunded = true인 경우 재구매 가능
   // 14일 지난 경우에도 재구매 가능 (약관 제3조)
   const { data } = await supabase
     .from("payment_items")
-    .select("id, order_id")
+    .select("id, order_id, is_refunded")
     .eq("user_id", user.id)
     .eq("play_id", playId)
     .maybeSingle();
 
   if (!data) {
+    return NextResponse.json({ purchased: false });
+  }
+
+  // 환불된 항목: 재구매 가능
+  if ((data as any).is_refunded === true) {
     return NextResponse.json({ purchased: false });
   }
 

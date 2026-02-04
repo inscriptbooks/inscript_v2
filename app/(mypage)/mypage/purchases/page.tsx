@@ -14,10 +14,10 @@ export default async function PurchasesPage() {
     redirect("/auth");
   }
 
-  // 1) 사용자 결제 항목 조회 (개별 작품 단위)
+  // 1) 사용자 결제 항목 조회 (개별 작품 단위, 환불 상태 포함)
   const { data: itemRows } = await supabase
     .from("payment_items")
-    .select("order_id, play_id, price, title, author")
+    .select("order_id, play_id, price, title, author, is_refunded")
     .eq("user_id", user.id);
 
   // 2) 다운로드 이력 조회
@@ -77,6 +77,8 @@ export default async function PurchasesPage() {
       const itemPrice = Number(row.price) || 0;
       const paymentAmount = orderAmountMap.get(oid) || 0;
       const finalPrice = itemPrice > 0 ? itemPrice : paymentAmount;
+      // 환불된 항목: payment_items.is_refunded 필드로 직접 확인
+      const isRefunded = row.is_refunded || false;
 
       const p: PurchaseItem = {
         id: `${oid}_${pid}`,
@@ -88,6 +90,7 @@ export default async function PurchasesPage() {
         price: finalPrice,
         isDownloaded: downloadMap.has(`${oid}_${pid}`) || false,
         orderId: oid,
+        isRefunded,
       };
       const ts = rawDate ? new Date(rawDate).getTime() : 0;
       return { p, ts };
@@ -95,28 +98,10 @@ export default async function PurchasesPage() {
 
     withTs.sort((a, b) => b.ts - a.ts);
     purchases = withTs.map((x) => x.p);
-  } else {
-    // 보정: 과거 결제 내역만 있을 경우 fallback (주문명 단일 카드)
-    const { data: rows } = await supabase
-      .from("payments")
-      .select("id, order_name, amount, approved_at, created_at")
-      .eq("user_id", user.id)
-      .order("created_at", { ascending: false });
-
-    purchases = (rows || []).map((r: any) => {
-      const dateSrc = r.approved_at || r.created_at;
-      const purchaseDate = dateSrc ? formatKoreanDate(dateSrc) : "";
-      return {
-        id: String(r.id),
-        playId: "",
-        playTitle: r.order_name || "주문 상품",
-        author: "",
-        purchaseDate,
-        purchasedAt: dateSrc,
-        price: Number(r.amount) || 0,
-      } as PurchaseItem;
-    });
   }
+
+  // 장바구니 묶음 결제: payment_items에 없는 과거 결제 내역은 hidden 처리
+  // (개별 작품 단위로 이미 payment_items에서 분할 표시되므로 중복 방지)
 
   return <PurchaseList initialPurchases={purchases} />;
 }

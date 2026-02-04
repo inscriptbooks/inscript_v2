@@ -11,8 +11,8 @@ import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Play Platform",
-  description: "Play Platform",
+  title: "iNSCRIPT",
+  description: "iNSCRIPT",
   icons: {
     icon: "/images/play.webp",
   },

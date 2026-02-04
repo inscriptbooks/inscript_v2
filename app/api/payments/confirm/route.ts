@@ -22,19 +22,23 @@ async function finalizeOrder(userId: string, orderId: string) {
     .eq("user_id", userId)
     .in("play_id", playIds);
 
+  // plays 테이블에서 가격, 제목, 작가 정보 조회 (authors 테이블 조인)
   const { data: playRows } = await supabase
     .from("plays")
-    .select("id, title, price")
+    .select("id, title, price, author_id, authors(author_name)")
     .in("id", playIds);
   const priceMap = new Map<string, number>();
   const titleMap = new Map<string, string>();
   const authorMap = new Map<string, string>();
 
-  // plays 테이블에서 가격과 제목 정보 먼저 설정
+  // plays 테이블에서 가격, 제목, 작가 정보 설정
   for (const pr of playRows || []) {
     const pid = String(pr.id);
     if ((pr as any).price) priceMap.set(pid, Number((pr as any).price));
     if ((pr as any).title) titleMap.set(pid, String((pr as any).title));
+    // authors 테이블에서 조인한 작가명 설정
+    const authorName = (pr as any).authors?.author_name;
+    if (authorName) authorMap.set(pid, String(authorName));
   }
 
   // cart_items가 있으면 우선 사용 (author 정보 포함)

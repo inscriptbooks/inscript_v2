@@ -85,25 +85,28 @@ export default function ClientGlobalNavigationBar() {
         open={communityDropdownOpen}
         onOpenChange={setCommunityDropdownOpen}
       >
-        <PopoverTrigger
-          className="group flex h-full w-fit cursor-pointer items-center gap-2.5 outline-none"
-          onMouseEnter={() => setCommunityDropdownOpen(true)}
-          onMouseLeave={() => setCommunityDropdownOpen(false)}
-        >
-          <span
-            className={cn(
-              "font-semibold text-gray-3 transition-colors group-hover:text-primary",
-              communityDropdownOpen && "text-primary",
-            )}
+        <PopoverTrigger asChild>
+          <Link
+            href="/community"
+            className="group flex h-full w-fit cursor-pointer items-center gap-2.5 outline-none"
+            onMouseEnter={() => setCommunityDropdownOpen(true)}
+            onMouseLeave={() => setCommunityDropdownOpen(false)}
           >
-            커뮤니티
-          </span>
-          <ChevronDown
-            className={cn(
-              "rotate-180 text-gray-3 outline-none transition-all group-hover:text-primary",
-              communityDropdownOpen && "rotate-0 text-primary",
-            )}
-          />
+            <span
+              className={cn(
+                "font-semibold text-gray-3 transition-colors group-hover:text-primary",
+                communityDropdownOpen && "text-primary",
+              )}
+            >
+              커뮤니티
+            </span>
+            <ChevronDown
+              className={cn(
+                "rotate-180 text-gray-3 outline-none transition-all group-hover:text-primary",
+                communityDropdownOpen && "rotate-0 text-primary",
+              )}
+            />
+          </Link>
         </PopoverTrigger>
 
         <PopoverContent
@@ -112,12 +115,12 @@ export default function ClientGlobalNavigationBar() {
           onMouseEnter={() => setCommunityDropdownOpen(true)}
           onMouseLeave={() => setCommunityDropdownOpen(false)}
         >
-          <Link
+          {/* <Link
             href="/community"
             className="font-medium transition-colors hover:text-primary"
           >
             Home
-          </Link>
+          </Link> */}
           <Link
             href="/community/news"
             className="font-medium transition-colors hover:text-primary"

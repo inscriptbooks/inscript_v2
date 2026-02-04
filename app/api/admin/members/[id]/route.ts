@@ -161,10 +161,10 @@ export async function GET(
       };
     });
 
-    // 희곡 구매 이력 조회
+    // 희곡 구매 이력 조회 (환불 상태 포함)
     const { data: paymentItems, error: paymentItemsError } = await supabase
       .from("payment_items")
-      .select("order_id, play_id, price, title, author, created_at")
+      .select("order_id, play_id, price, title, author, created_at, is_refunded, refunded_at")
       .eq("user_id", id)
       .order("created_at", { ascending: false });
 
@@ -201,6 +201,8 @@ export async function GET(
       const itemPrice = item.price || 0;
       const paymentAmount = paymentAmountMap.get(item.order_id) || 0;
       const finalPrice = itemPrice > 0 ? itemPrice : paymentAmount;
+      // 환불된 항목: is_refunded 필드로 환불 상태 확인
+      const isRefunded = (item as any).is_refunded || false;
 
       return {
         no: index + 1,
@@ -210,6 +212,7 @@ export async function GET(
         price: finalPrice,
         isDownloaded:
           downloadMap.has(`${item.order_id}_${item.play_id}`) || false,
+        isRefunded,
         orderId: item.order_id,
         playId: item.play_id,
       };

@@ -45,11 +45,11 @@ export default function PlayEditForm({ initialData }: PlayEditFormProps) {
 
   const [visibility, setVisibility] = useState("노출");
   const [publishStatus, setPublishStatus] = useState<PublicStatus | null>(
-    PublicStatus.PUBLISHED
+    PublicStatus.PUBLISHED,
   );
   // 판매 관련 상태
   const [salesStatus, setSalesStatus] = useState<"판매함" | "판매 안 함">(
-    "판매 안 함"
+    "판매 안 함",
   );
   const [keywords, setKeywords] = useState<string[]>([]);
   const [characters, setCharacters] = useState<string[]>([]);
@@ -121,11 +121,11 @@ export default function PlayEditForm({ initialData }: PlayEditFormProps) {
 
       // 판매 관련 초기값
       setSalesStatus(
-        (initialData.salesStatus as "판매함" | "판매 안 함") || "판매 안 함"
+        (initialData.salesStatus as "판매함" | "판매 안 함") || "판매 안 함",
       );
       form.setValue(
         "price",
-        initialData.price ? String(initialData.price) : ""
+        initialData.price ? String(initialData.price) : "",
       );
     }
   }, [initialData, form, isHydrated]);
@@ -173,7 +173,7 @@ export default function PlayEditForm({ initialData }: PlayEditFormProps) {
   };
 
   const handleCharacterKeyPress = (
-    e: React.KeyboardEvent<HTMLInputElement>
+    e: React.KeyboardEvent<HTMLInputElement>,
   ) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -266,22 +266,22 @@ export default function PlayEditForm({ initialData }: PlayEditFormProps) {
       const playData = {
         title: data.title,
         author: selectedWriterId,
-        line1: data.dialogue1 || undefined,
-        line2: data.dialogue2 || undefined,
-        line3: data.dialogue3 || undefined,
-        year: data.year || undefined,
-        country: data.country || undefined,
+        line1: data.dialogue1,
+        line2: data.dialogue2,
+        line3: data.dialogue3,
+        year: data.year,
+        country: data.country,
         keyword: keywords,
         plot: data.plot,
-        femaleCharacterCount: data.femaleCount || undefined,
-        maleCharacterCount: data.maleCount || undefined,
-        characterList: characters.length > 0 ? characters : undefined,
-        publicStatus: publishStatus || undefined,
-        publicHistory: data.publishHistory || undefined,
+        femaleCharacterCount: data.femaleCount,
+        maleCharacterCount: data.maleCount,
+        characterList: characters,
+        publicStatus: publishStatus ?? undefined,
+        publicHistory: data.publishHistory,
         // 판매 관련
         salesStatus,
-        // 판매 여부와 관계없이 가격 유지 (토글만 하는 것이므로)
-        price: data.price || undefined,
+        // 구매 여부와 관계없이 가격 유지 (토글만 하는 것이므로)
+        price: data.price,
         attachmentUrl,
         attachmentName,
         attachmentPath,
@@ -306,7 +306,7 @@ export default function PlayEditForm({ initialData }: PlayEditFormProps) {
       }, 1000);
     } catch (error) {
       showErrorToast(
-        isEditMode ? "희곡 수정에 실패했습니다." : "희곡 등록에 실패했습니다."
+        isEditMode ? "희곡 수정에 실패했습니다." : "희곡 등록에 실패했습니다.",
       );
     }
   };
@@ -620,11 +620,11 @@ export default function PlayEditForm({ initialData }: PlayEditFormProps) {
               </div>
             </div>
 
-            {/* 판매 여부 */}
+            {/* 구매 여부 */}
             <div className="flex w-full items-center">
               <div className="flex h-14 w-40 items-center gap-1">
                 <span className="font-pretendard text-xl font-semibold leading-6 text-gray-3">
-                  판매 여부
+                  구매 여부
                 </span>
                 <span className="font-pretendard text-xl font-semibold leading-6 text-red">
                   *

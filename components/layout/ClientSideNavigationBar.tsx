@@ -1,6 +1,6 @@
 "use client";
 
-import { MouseEvent, useState } from "react";
+import { MouseEvent, useId, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Alert, ChevronDown, Close, Mail, Profile } from "@/components/icons";
@@ -29,8 +29,8 @@ export default function ClientSideNavigationBar({
 }: NavigationProps) {
   const [isProgramExpanded, setIsProgramExpanded] = useState(false);
   const [isCommunityExpanded, setIsCommunityExpanded] = useState(false);
-  const programId = "mobile-nav-program";
-  const communityId = "mobile-nav-community";
+  const programId = useId();
+  const communityId = useId();
   const [profilePopoverOpen, setProfilePopoverOpen] = useState(false);
   const router = useRouter();
   const { isAuthenticated } = useUser();
@@ -168,8 +168,11 @@ export default function ClientSideNavigationBar({
             open={isProgramExpanded}
             onOpenChange={setIsProgramExpanded}
           >
-            <CollapsibleTrigger asChild>
-              <div className="flex w-fit cursor-pointer items-center gap-2.5 py-2.5">
+            <CollapsibleTrigger asChild id={`${programId}-trigger`}>
+              <div
+                className="flex w-fit cursor-pointer items-center gap-2.5 py-2.5"
+                aria-controls={programId}
+              >
                 <span className="text-2xl font-semibold leading-8 text-white">
                   프로그램
                 </span>
@@ -181,7 +184,10 @@ export default function ClientSideNavigationBar({
                 />
               </div>
             </CollapsibleTrigger>
-            <CollapsibleContent id={programId}>
+            <CollapsibleContent
+              id={programId}
+              aria-labelledby={`${programId}-trigger`}
+            >
               <div className="flex flex-col">
                 <Link
                   href="/program"
@@ -212,8 +218,11 @@ export default function ClientSideNavigationBar({
             open={isCommunityExpanded}
             onOpenChange={setIsCommunityExpanded}
           >
-            <CollapsibleTrigger asChild>
-              <div className="flex w-fit cursor-pointer items-center gap-2.5 py-2.5">
+            <CollapsibleTrigger asChild id={`${communityId}-trigger`}>
+              <div
+                className="flex w-fit cursor-pointer items-center gap-2.5 py-2.5"
+                aria-controls={communityId}
+              >
                 <span className="text-2xl font-semibold leading-8 text-white">
                   커뮤니티
                 </span>
@@ -225,7 +234,10 @@ export default function ClientSideNavigationBar({
                 />
               </div>
             </CollapsibleTrigger>
-            <CollapsibleContent id={communityId}>
+            <CollapsibleContent
+              id={communityId}
+              aria-labelledby={`${communityId}-trigger`}
+            >
               <div className="flex flex-col">
                 <Link
                   href="/community"
@@ -233,7 +245,7 @@ export default function ClientSideNavigationBar({
                   onClick={onClose}
                 >
                   <span className="text-lg font-medium leading-5 text-white">
-                    Home
+                    전체 커뮤니티
                   </span>
                 </Link>
                 <Link

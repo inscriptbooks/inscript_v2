@@ -31,10 +31,12 @@ export async function GET(_request: NextRequest) {
   const cartItems = data || [];
 
   // 구매한 희곡 중 다운로드 기간이 만료되지 않은 것만 필터링
+  // 환불된 항목: is_refunded = true인 경우 재구매 가능하므로 제외
   const { data: paidRows } = await supabase
     .from("payment_items")
-    .select("play_id, order_id")
-    .eq("user_id", user.id);
+    .select("play_id, order_id, is_refunded")
+    .eq("user_id", user.id)
+    .or("is_refunded.is.null,is_refunded.eq.false");
 
   // 구매일시 조회를 위해 order_id 수집
   const orderIds = Array.from(
@@ -128,16 +130,17 @@ export async function POST(request: NextRequest) {
   }
 
   // 구매 이력 확인: payment_items에 있으면 구매한 것으로 판단
-  // 환불된 경우 payment_items에서 삭제되므로 재구매 가능
+  // 환불된 항목: is_refunded = true인 경우 재구매 가능
   // 다운로드 기간 만료(2주 경과) 시 재구매 가능
   const { data: purchasedRow } = await supabase
     .from("payment_items")
-    .select("id, order_id")
+    .select("id, order_id, is_refunded")
     .eq("user_id", user.id)
     .eq("play_id", String(playId))
     .maybeSingle();
 
-  if (purchasedRow) {
+  // 환불된 항목: 재구매 가능하므로 체크 스킵
+  if (purchasedRow && (purchasedRow as any).is_refunded !== true) {
     // 구매일시 확인을 위해 payments 테이블 조회
     const { data: paymentRow } = await supabase
       .from("payments")

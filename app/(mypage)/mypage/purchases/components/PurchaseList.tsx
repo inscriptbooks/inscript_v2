@@ -15,12 +15,12 @@ interface PurchaseListProps {
 
 export default function PurchaseList({ initialPurchases }: PurchaseListProps) {
   const [purchases, setPurchases] = useState<PurchaseItem[]>(
-    initialPurchases || []
+    initialPurchases || [],
   );
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const [selectedPurchase, setSelectedPurchase] = useState<PurchaseItem | null>(
-    null
+    null,
   );
 
   const handleDownloadClick = (purchase: PurchaseItem) => {
@@ -73,8 +73,8 @@ export default function PurchaseList({ initialPurchases }: PurchaseListProps) {
 
       setPurchases((prev) =>
         prev.map((p) =>
-          p.id === purchase.id ? { ...p, isDownloaded: true } : p
-        )
+          p.id === purchase.id ? { ...p, isDownloaded: true } : p,
+        ),
       );
     } catch (_e) {
       showErrorToast("다운로드 중 오류가 발생했습니다.");
@@ -93,6 +93,7 @@ export default function PurchaseList({ initialPurchases }: PurchaseListProps) {
     price: p.price,
     isDownloaded: p.isDownloaded,
     orderId: p.orderId,
+    isRefunded: p.isRefunded,
   }));
 
   const handleDownloadCommon = async (item: PurchaseDownloadItem) => {

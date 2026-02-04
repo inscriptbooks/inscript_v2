@@ -14,7 +14,7 @@ import { Loader } from "@/components/common";
 interface EntryDeleteModalProps {
   isOpen: boolean;
   title: string;
-  description: string;
+  description: string | React.ReactNode;
   content?: string;
   createdAt?: string;
   onClose: () => void;
@@ -54,9 +54,7 @@ export default function EntryDeleteModal({
             {(content || createdAt) && (
               <div className="flex w-full flex-col rounded-lg border border-gray-6 bg-background p-5">
                 <div className="text-base font-normal leading-6 tracking-[-0.32px] text-gray-2">
-                  {content && (
-                    <p className="whitespace-pre-wrap">{content}</p>
-                  )}
+                  {content && <p className="whitespace-pre-wrap">{content}</p>}
                   {createdAt && (
                     <span className="block">{`(${formatDate(createdAt)} 작성)`}</span>
                   )}

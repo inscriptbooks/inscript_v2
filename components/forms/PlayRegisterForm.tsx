@@ -368,7 +368,7 @@ export default function PlayRegisterForm({
                         className={cn(
                           "shrink-0 text-gray-3",
                           field.value === PublicStatus.PUBLISHED &&
-                            "font-bold text-primary"
+                            "font-bold text-primary",
                         )}
                       >
                         출간
@@ -382,7 +382,7 @@ export default function PlayRegisterForm({
                         className={cn(
                           "shrink-0 text-gray-3",
                           field.value === PublicStatus.UNPUBLISHED &&
-                            "font-bold text-primary"
+                            "font-bold text-primary",
                         )}
                       >
                         미출간
@@ -396,7 +396,7 @@ export default function PlayRegisterForm({
                         className={cn(
                           "shrink-0 text-gray-3",
                           field.value === PublicStatus.OUT_OF_PRINT &&
-                            "font-bold text-primary"
+                            "font-bold text-primary",
                         )}
                       >
                         절판
@@ -428,14 +428,14 @@ export default function PlayRegisterForm({
           )}
         />
 
-        {/* 판매 여부 - Sales Status */}
+        {/* 구매 여부 - Sales Status */}
         <FormField
           control={form.control}
           name="salesStatus"
           render={({ field }) => (
             <FormItem className="flex h-12 items-center justify-between">
               <FormLabel className="w-[65px] shrink-0 leading-6 text-gray-3 lg:w-40 lg:text-xl">
-                판매 여부 <span className="text-red">*</span>
+                구매 여부 <span className="text-red">*</span>
               </FormLabel>
               <FormControl>
                 <FormItem className="flex w-full items-center">
@@ -451,7 +451,7 @@ export default function PlayRegisterForm({
                       <FormLabel
                         className={cn(
                           "shrink-0 text-gray-3",
-                          field.value === "판매함" && "font-bold text-primary"
+                          field.value === "판매함" && "font-bold text-primary",
                         )}
                       >
                         판매함
@@ -465,7 +465,7 @@ export default function PlayRegisterForm({
                         className={cn(
                           "shrink-0 text-gray-3",
                           field.value === "판매 안 함" &&
-                            "font-bold text-primary"
+                            "font-bold text-primary",
                         )}
                       >
                         판매 안 함
@@ -504,7 +504,7 @@ export default function PlayRegisterForm({
                         onChange={(event) => {
                           const digitsOnly = event.target.value.replace(
                             /[^0-9]/g,
-                            ""
+                            "",
                           );
                           field.onChange(digitsOnly);
                         }}
@@ -551,7 +551,7 @@ export default function PlayRegisterForm({
         <Button
           type="submit"
           className={cn(
-            "mx-auto mt-1 w-full max-w-[335px] text-lg font-semibold disabled:bg-cancle disabled:text-cancle-foreground lg:max-w-[470px]"
+            "mx-auto mt-1 w-full max-w-[335px] text-lg font-semibold disabled:bg-cancle disabled:text-cancle-foreground lg:max-w-[470px]",
           )}
           disabled={
             !isValid || form.formState.isSubmitting || createPlay.isPending

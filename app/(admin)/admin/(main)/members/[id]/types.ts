@@ -66,6 +66,7 @@ export interface PurchaseHistory {
   author: string;
   price: number;
   isDownloaded: boolean;
+  isRefunded?: boolean; // 환불 완료 여부
   orderId: string;
   playId: string;
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
+import { Loader2, X } from "lucide-react";
 
 interface RefundModalProps {
   isOpen: boolean;
@@ -11,6 +11,7 @@ interface RefundModalProps {
   playTitle: string;
   author: string;
   purchaseDate: string;
+  isLoading?: boolean;
 }
 
 export default function RefundModal({
@@ -21,6 +22,7 @@ export default function RefundModal({
   playTitle,
   author,
   purchaseDate,
+  isLoading = false,
 }: RefundModalProps) {
   if (!isOpen) return null;
 
@@ -93,11 +95,16 @@ export default function RefundModal({
             {/* 환불 하기 버튼 */}
             <Button
               onClick={onConfirm}
-              className="flex w-full items-center justify-center rounded bg-primary px-14 py-5 hover:bg-primary/90"
+              disabled={isLoading}
+              className="flex w-full items-center justify-center rounded bg-primary px-14 py-5 hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              <span className="font-pretendard text-lg font-semibold leading-6 text-white">
-                환불 하기
-              </span>
+              {isLoading ? (
+                <Loader2 className="h-6 w-6 animate-spin text-white" />
+              ) : (
+                <span className="font-pretendard text-lg font-semibold leading-6 text-white">
+                  환불 하기
+                </span>
+              )}
             </Button>
           </div>
         </div>

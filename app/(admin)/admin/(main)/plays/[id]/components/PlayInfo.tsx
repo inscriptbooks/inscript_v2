@@ -95,12 +95,12 @@ export default function PlayInfo({ playData }: PlayInfoProps) {
           </div>
         </div>
 
-        {/* 판매 정보 */}
+        {/* 구매 정보 */}
         <div className="flex items-stretch border-b border-gray-7">
           <div className="flex flex-1">
             <div className="flex w-40 items-center gap-2.5 bg-gray-7 px-6 py-2.5">
               <span className="text-base font-normal leading-6 text-gray-2">
-                판매 여부
+                구매 여부
               </span>
             </div>
             <div className="flex flex-1 items-center gap-2.5 px-6 py-2.5">
@@ -112,7 +112,7 @@ export default function PlayInfo({ playData }: PlayInfoProps) {
           <div className="flex flex-1">
             <div className="flex w-40 items-center gap-2.5 bg-gray-7 px-6 py-2.5">
               <span className="text-base font-normal leading-6 text-gray-2">
-                판매 정보
+                구매 정보
               </span>
             </div>
             <div className="flex flex-1 items-center gap-2.5 px-6 py-2.5">
@@ -131,7 +131,7 @@ export default function PlayInfo({ playData }: PlayInfoProps) {
                       </span>
                       <a
                         href={`${playData.attachment_url}?download=${encodeURIComponent(
-                          playData.attachment_name
+                          playData.attachment_name,
                         )}`}
                         className="text-primary underline"
                       >
