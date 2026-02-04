@@ -1,4 +1,4 @@
-# Play Platform Renewal
+# iNSCRIPT
 
 희곡 전자책 거래 및 커뮤니티 플랫폼 인스크립트
 
