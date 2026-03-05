@@ -156,7 +156,8 @@ export function createImageUploadHandler(
     quality?: number; // 1-100 (기본: 90)
     allowedTypes?: string[];
   }
-) {
+)
+ {
   return async (request: NextRequest) => {
     try {
       console.log("Starting image upload handler");
