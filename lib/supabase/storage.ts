@@ -157,6 +157,7 @@ export function createImageUploadHandler(
     allowedTypes?: string[];
   }
 )
+
  {
   return async (request: NextRequest) => {
     try {
