@@ -3,9 +3,10 @@
 import { useState } from "react";
 import MainBannerManagement from "./components/MainBannerManagement";
 import AdBannerManagement from "./components/AdBannerManagement";
+import IntroductionManagement from "./components/IntroductionManagement";
 import FooterManagement from "./components/FooterManagement";
 
-type TabType = "banner" | "ad" | "footer";
+type TabType = "banner" | "ad" | "footer" | "introduction";
 
 export default function AdminMainConfigPage() {
   const [activeTab, setActiveTab] = useState<TabType>("banner");
@@ -13,6 +14,7 @@ export default function AdminMainConfigPage() {
   const tabs = [
     { id: "banner" as TabType, label: "배너 관리" },
     { id: "ad" as TabType, label: "광고 배너" },
+    { id: "introduction" as TabType, label: "회사소개" },
     { id: "footer" as TabType, label: "푸터 관리" },
   ];
 
@@ -28,11 +30,10 @@ export default function AdminMainConfigPage() {
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`px-6 py-3 font-pretendard text-base font-medium transition-colors ${
-              activeTab === tab.id
-                ? "border-b-2 border-primary text-primary"
-                : "text-gray-500 hover:text-gray-700"
-            }`}
+            className={`px-6 py-3 font-pretendard text-base font-medium transition-colors ${activeTab === tab.id
+              ? "border-b-2 border-primary text-primary"
+              : "text-gray-500 hover:text-gray-700"
+              }`}
           >
             {tab.label}
           </button>
@@ -43,6 +44,7 @@ export default function AdminMainConfigPage() {
       <div className="w-full">
         {activeTab === "banner" && <MainBannerManagement />}
         {activeTab === "ad" && <AdBannerManagement />}
+        {activeTab === "introduction" && <IntroductionManagement />}
         {activeTab === "footer" && <FooterManagement />}
       </div>
     </div>

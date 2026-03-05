@@ -159,8 +159,11 @@ export function createImageUploadHandler(
 ) {
   return async (request: NextRequest) => {
     try {
+      console.log("Starting image upload handler");
       const formData = await request.formData();
+      console.log("FormData parsed");
       const file = formData.get("file") as File;
+      console.log("File extracted", file?.name, file?.type, file?.size);
 
       if (!file) {
         return NextResponse.json(
@@ -199,11 +202,12 @@ export function createImageUploadHandler(
 
       // 파일명/버퍼 생성 (GIF는 애니메이션 유지, 실패 시 원본 GIF 업로드)
       const timestamp = Date.now();
-      const originalName = file.name.replace(/\.[^.]+$/, "");
+      // Supabase Storage 'Invalid key' 에러 방지를 위해 (한글/특수문자 이슈) 파일명을 영숫자로만 구성
+      const safeName = Math.random().toString(36).substring(2, 15);
       const quality = options?.quality || 90;
 
       let uploadBuffer: Buffer = inputBuffer;
-      let fileName = `${folderPath}/${timestamp}-${originalName}.webp`;
+      let fileName = `${folderPath}/${timestamp}-${safeName}.webp`;
 
       if (file.type === "image/gif") {
         try {
@@ -211,16 +215,16 @@ export function createImageUploadHandler(
           uploadBuffer = await sharp(inputBuffer, { animated: true })
             .webp({ quality })
             .toBuffer();
-          fileName = `${folderPath}/${timestamp}-${originalName}.webp`;
+          fileName = `${folderPath}/${timestamp}-${safeName}.webp`;
         } catch (_) {
           // 변환 실패 시 원본 GIF 업로드로 폴백
           uploadBuffer = inputBuffer;
-          fileName = `${folderPath}/${timestamp}-${originalName}.gif`;
+          fileName = `${folderPath}/${timestamp}-${safeName}.gif`;
         }
       } else {
         // 기타 포맷은 기존과 동일하게 WebP로 변환
         uploadBuffer = await sharp(inputBuffer).webp({ quality }).toBuffer();
-        fileName = `${folderPath}/${timestamp}-${originalName}.webp`;
+        fileName = `${folderPath}/${timestamp}-${safeName}.webp`;
       }
 
       // Storage에 업로드
@@ -232,6 +236,7 @@ export function createImageUploadHandler(
 
       return NextResponse.json({ url, path }, { status: 201 });
     } catch (error) {
+      console.error("Image upload error:", error);
       return NextResponse.json(
         {
           error:
